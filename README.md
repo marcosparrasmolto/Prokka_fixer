@@ -56,7 +56,25 @@ produced from blast against the custom database.
 
 3- `./Databse/ETEC_DB`. Custom ETEC proteins database.
 
-***Output results are found in two different files:***
+**Usage**
+
+Multifasta assembly/genomes files should be stored in a folder called
+*Seqs* in the same folder this script is being run.
+
+First of all you will need to load the prokka environment in the bash
+terminal
+
+``` r
+conda activate prokka_env
+```
+
+After that, execute the script:
+
+``` r
+Rscript Prokka_anotation_fixer.R
+```
+
+***Output results are found in three different files:***
 
 1- `All_results_hit.txt`. Will save the best hit for each ORF based on
 the most abundant one.
@@ -103,3 +121,7 @@ head(composition_genome)
 ##                                                                         V2
 ## 1 fim41a-G, YghJ, eatA, etpA, etpB, eltA, etpC, CFA/I, STh, CS21, CS1, CS3
 ```
+
+3- `./Output/*gff`. Modified Prokka .gff files will be stored in Output
+folder with the string “new\_gff\_file” at the end of file name, for
+each analyzed file.
