@@ -58,7 +58,7 @@ foreach my $key (keys %list_orf_blast) ##Information about blast information acc
 		
 		
 		$list_comb_entrada{$a.";".$list_orf_blast_pos{$key}}=$list_orf_blast{$key};
-		print $key." ".$a.";".$list_orf_blast_pos{$key}." ".$list_orf_blast{$key}."\n";
+		#print $key." ".$a.";".$list_orf_blast_pos{$key}." ".$list_orf_blast{$key}."\n";
 }	
 
 

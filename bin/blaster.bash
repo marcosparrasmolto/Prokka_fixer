@@ -17,8 +17,10 @@ cat salida_prueba >> ../salida_prodigal_global
 cat salida_prueba_aa >> ../salida_prodigal_global_aa
 blastn -max_hsps 1 -query salida_prueba -outfmt 6 -db ../Database/ETEC_DB -out salida_blast
 cat salida_blast >> ../salida_global_blast
-prokka "$i" --outdir ../Output/"$i"_prokka_out --prefix "$i" --force
+prokka "$i" --outdir ../Output/"$i"_prokka_out --prefix "$i" -rfam --force
 done
+
+#--norrna --notrna
 
 cd ../
 

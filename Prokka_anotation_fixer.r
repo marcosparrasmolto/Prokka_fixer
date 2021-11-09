@@ -11,15 +11,22 @@ extract_table=data.frame(matrix(ncol=2))
 
 files_totales=list.files("./Seqs/") 
 
+input_acc=data.frame(matrix(ncol=1))
+e=1
+
 for(i in 1:length(files_totales)) ## Here we extract all the information for what sequence is include in part of each assembly project/genome.
 {
   if(!isEmpty(grep(".fa",files_totales[i])))
   {
     
     multifa_original=read.delim(paste("./Seqs",files_totales[i],sep = "/"),header=F)
-    multifa_original=as.data.frame(multifa_original[ seq(1, nrow(multifa_original), by = 2),1])
+
+
+    multifa_original=multifa_original[grepl("^>", multifa_original[,1]), ]
+
+   #multifa_original=as.data.frame(multifa_original[ seq(1, nrow(multifa_original), by = 2),1])
     
-    extract_table=rbind(extract_table,data.frame(cbind(files_totales[i],str_replace_all(gsub(" ", "", sapply(strsplit(sapply(strsplit(as.character(multifa_original[,1]), "\\ "), "[[", 1), "\\]"), "[[", 1), fixed = TRUE),">",""))))
+    extract_table=rbind(extract_table,data.frame(cbind(files_totales[i],str_replace_all(gsub(" ", "", sapply(strsplit(sapply(strsplit(as.character(multifa_original), "\\ "), "[[", 1), "\\]"), "[[", 1), fixed = TRUE),">",""))))
 
     
   }
