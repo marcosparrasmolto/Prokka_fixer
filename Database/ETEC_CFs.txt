@@ -1,0 +1,32 @@
+CFA/I	CFA/I-cfaA	CFA/I-cfaB	CFA/I-cfaC	CFA/I-cfaD_trunc	CFA/I-cfaE											
+CS1	CS1-CooB	CS1-CooA	CS1-CooC	CS1-CooD												
+CS13	CS13-cshA	CS13-cshB	CS13-cshC	CS13-cshD	CS13-cshE	CS13-cshF	CS13-cshG									
+CS14	CS14-csuB	CS14-csuA1	CS14-csuA2	CS14-csuC	CS14-csuD											
+CS2	CS2-cotB	CS2-cotA	CS2-cotC	CS2-cotD												
+CS20	CS20-csnA	CS20-csnB	CS20-csnC	CS20-csnD	CS20-csnE	CS20-csnF	CS20-csnG									
+CS21	CS21-lngX1	CS21-lngR	CS21-lngS	CS21-lngT	CS21-lngX2	CS21-lngA	CS21-lngB	CS21-lngC	CS21-lngD	CS21-lngE	CS21-lngF	CS21-lngG	CS21-lngH	CS21-lngI	CS21-lngJ	CS21-lngP
+CS23	CS23-aalR	CS23-aalA	CS23-aalB	CS23-aalC	CS23-aalD	CS23-aalE	CS23-aalF	CS23-aalG	CS23-aalH							
+CS28	CS28A-gene1	CS28A-gene2	CS28A-gene3	CS28A-gene4	CS28A-gene5	CS28A-gene6	CS28A-gene7	CS28A-gene8	CS28B-gene1	CS28B-gene2	CS28B-gene3	CS28B-gene4	CS28B-gene5	CS28B-gene6	CS28B-gene7	CS28B-gene8
+CS3	CS3-CstA	CS3-CstB	CS3-CstG	CS3-CstH												
+CS31	CS31A-clpE	CS31A-clpF	CS31A-clpG	CS31A-clpL	CS31A-clpH											
+CS5	CS5-csfA	CS5-csfB	CS5-csfC	CS5-csfE	CS5-csfF	CS5-csfD										
+CS6	CS6-cssA2	CS6-cssB2	CS6-cssC	CS6-cssD	CS6-cssA3	CS6-cssB1	CS6-cssA7	CS6-cssB3								
+CS7	CS7-csvA	CS7-csvB	CS7-csvC	CS7-csvE	CS7-csvF	CS7-csvD										
+CS8	CS8-cofR	CS8-cofS	CS8-cofT	CS8-cofA	CS8-cofB	CS8-cofC	CS8-cofD	CS8-cofE	CS8-cofF	CS8-cofG	CS8-cofH	CS8-cofI	CS8-cofJ	CS8-cofP		
+F4-fae	F4-faeA	F4-faeB	F4-faeC	F4-faeD	F4-faeE	F4-faeF	F4-faeG	F4-faeH	F4-faeI	F4-faeJ						
+F41	F41a-papB	F41a-fim41a-A	F41a-fim41a-B	F41a-fim41a-C	F41a-fim41a-D	F41a-fim41a-E	F41a-fim41a-F	F41a-fim41a-G								
+PCFO71	PCFO71-cosB	PCFO71-cosA	PCFO71-cosC	PCFO71-cosD												
+CS4	CS4-csaA	CS4-csaB	CS4-csaC	CS4-csaE	CS4-csaD											
+CS12	CS12-cswA	CS12-cswB	CS12-cswC	CS12-cswD	CS12-cswE	CS12-cswF	CS12-cswG									
+CS15	CS15-nfaA															
+CS17	CS17-csbB	CS17-csbA	CS17-csbC	CS17-csbD												
+CS18	CS18-fotA	CS18-fotB	CS18-fotC	CS18-fotD	CS18-fotE	CS18-fotF	CS18-fotG									
+CS19	CS19-csdB	CS19-csdA	CS19-csdC	CS19-csdD												
+CS22	CS22-cseA															
+CS26	CS26-crsS	CS26-crsT	CS26-crsH	CS26-crsB	CS26-crsC	CS26-crsD	CS26-crsE	CS26-crsF	CS26-crsG							
+CS27	CS27A-gene1	CS27A-gene2	CS27A-gene3	CS27A-gene4	CS27A-gene5	CS27A-gene6	CS27A-gene7	CS27A-gene8	CS27A-gene9	CS27B-gene1	CS27B-gene2	CS27B-gene3	CS27B-gene4	CS27B-gene5	CS27B-gene6	CS27B-gene7
+CS30	CS30-csmS	CS30-csmT	CS30-csmA	CS30-csmB	CS30-csmC	CS30-csmD	CS30-csmE	CS30-csmF	CS30-csmG							
+F6-fas	F6-fasA	F6-fasB	F6-fasC	F6-fasD	F6-fasE	F6-fasF	F6-fasG									
+F17	F17a-geneA	F17a-geneD	F17a-geneC	F17a-geneG												
+F5-fan	F5-fanB	F5-fanA	F5-fanC	F5-fanD	F5-fanE	F5-fanF	F5-fanG	F5-fanH								
+F18-fed	F18-fedA	F18-fedB	F18-fedC	F18-fedD	F18-fedE	F18-fedF										

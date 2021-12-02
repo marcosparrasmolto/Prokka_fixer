@@ -16,7 +16,7 @@ my %list_orf_blast_pos=undef;
 my %list_orf_blast=undef;
 my %list_comb_entrada=undef;
 
-open (entrada_blast,$dir_blast."salida_prodigal_global_headers.txt")  || die "File could not be opened\n";
+open (entrada_blast,$dir_blast."aux_file_prodigal_global_headers.txt")  || die "File could not be opened\n";
 
 while(<entrada_blast>) ##Information abour each ORF sequence are saved.
 {
@@ -82,12 +82,16 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 	my @files2 = glob( $_ . '/*' );
 	my $dir_guardado=$_;
 	
+	
+	
 	for(@files2)
 	{		
 		if($_ =~ /gff/)
 		{
+			$dir_guardado=(split(/.fa/,$dir_guardado))[0];
+			
 			open (entrada,$_) || die "File could not be opened\n";
-			open (salida,">".$dir_guardado."new_gff_file.gff");
+			open (salida,">".$dir_guardado."_new_gff_file.gff");
 
 			while(<entrada>)
 			{
@@ -102,6 +106,7 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 						my @line_ID=split(/\;/,$line[8]);
 						$flag_gene=0;
 						$flag_product=0;
+						$flag_name=0;
 						$flag_note=0;	
 						$line[8]=undef;
 						$back_product=undef;
@@ -110,26 +115,26 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 						{
 							if($linea_ID_ver =~ /gene=/)
 							{
-								if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-								{
-									$linea_ID_ver="gene=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2];
+								#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+								#{
+								#	$linea_ID_ver="gene=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1];
 								
-								}else
-								{
-									$linea_ID_ver="gene=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1];
-								}
+								#}else
+								#{
+									$linea_ID_ver="gene=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1];
+								#}
 									
 								$flag_gene=1;
 							}if($linea_ID_ver =~ /Name=/)
 							{
-								if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-								{
-									$linea_ID_ver="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2];
+								#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+								#{
+								#	$linea_ID_ver="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2];
 								
-								}else
-								{
-									$linea_ID_ver="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1];
-								}
+								#}else
+								#{
+									$linea_ID_ver="Name=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1];
+								#}
 									
 								$flag_name=1;
 							}elsif($linea_ID_ver =~ /product=/)
@@ -137,21 +142,23 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 								$back_product=(split(/product=/,$linea_ID_ver))[1];
 
 
-								if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-								{
-									$linea_ID_ver="product=";
-									my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
-									@product_line_=@product_line_[3..$#product_line_];
-									$linea_ID_ver.="$_ " for @product_line_;
-									chop($linea_ID_ver);
-								}else
-								{
-									$linea_ID_ver="product=";
-									my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
-									@product_line_=@product_line_[2..$#product_line_];
-									$linea_ID_ver.="$_ " for @product_line_;
-									chop($linea_ID_ver);
-								}
+								#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+								#{
+								#	$linea_ID_ver="product=";
+								#	my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
+								#	@product_line_=@product_line_[3..$#product_line_];
+								#	$linea_ID_ver.="$_ " for @product_line_;
+								#	chop($linea_ID_ver);
+								#}else
+								#{
+									$linea_ID_ver="product=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2];
+
+									#$linea_ID_ver="product=";
+									#my @product_line_=split(/?/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
+									#@product_line_=@product_line_[2..$#product_line_];
+									#$linea_ID_ver.="$_ " for @product_line_;
+									#chop($linea_ID_ver);
+								#}
 
 								$flag_product=1;
 							}elsif($linea_ID_ver =~ /note=/)
@@ -167,43 +174,45 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 						
 						if($flag_gene==0) ##If the original field doesnt contain a field, we will create the entry for it
 						{
-							if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-							{
-								$line[8].="gene=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2].";";
-							}else
-							{
-								$line[8].="gene=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1].";";
-							}
+							#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+							#{
+							#	$line[8].="gene=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2].";";
+							#}else
+							#{
+								$line[8].="gene=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1].";";
+							#}
 						}
 						if($flag_name==0)
 						{
-							if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-							{
-								$line[8].="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2].";";
-							}else
-							{
-								$line[8].="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1].";";
-							}
+							#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+							#{
+							#	$line[8].="Name=".(split(/\_/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2].";";
+							#}else
+							#{
+								$line[8].="Name=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[1].";";
+							#}
 						}
 
 						if($flag_product==0)
 						{
-								if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
-								{
-									$line[8].="product=";
-									my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
-									@product_line_=@product_line_[3..$#product_line_];
-									$line[8].="$_ " for @product_line_;
-									chop($line[8]);
+								#if($list_comb_entrada{$line[0].";".$line[3].";".$line[4]} =~ /NZ_/)
+								#{
+								#	$line[8].="product=";
+								#	my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
+								#	@product_line_=@product_line_[3..$#product_line_];
+								#	$line[8].="$_ " for @product_line_;
+								#	chop($line[8]);
 								
-								}else
-								{
-									$line[8].="product=";
-									my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
-									@product_line_=@product_line_[2..$#product_line_];
-									$line[8].="$_ " for @product_line_;
-									chop($line[8]);
-								}
+								#}else
+								#{
+									$line[8].="product=".(split(/\?/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[2];
+
+									#$line[8].="product=";
+									#my @product_line_=split(/_/,(split(/\;/,$list_comb_entrada{$line[0].";".$line[3].";".$line[4]}))[0]);
+									#@product_line_=@product_line_[2..$#product_line_];
+									#$line[8].="$_ " for @product_line_;
+									#chop($line[8]);
+								#}
 						}
 						if($flag_note==0)
 						{

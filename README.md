@@ -56,10 +56,25 @@ produced from blast against the custom database.
 
 3- `./Databse/ETEC_DB`. Custom ETEC proteins database.
 
+How to create the database:
+
+· Headers from the fasta file should be named like:
+
+``` r
+>id-?gene?product?-
+```
+
+· A database is created executing the folling command line:
+
+``` r
+makeblastdb -in database.fasta -dbtype nucl -out ETEC_DB
+```
+
 **Usage**
 
 Multifasta assembly/genomes files should be stored in a folder called
-*Seqs* in the same folder this script is being run.
+*Seqs* in the same folder this script is being run. Files should be as
+\*.fa format.
 
 First of all you will need to load the prokka environment in the bash
 terminal
@@ -83,32 +98,32 @@ the most abundant one.
 head(best_blast)
 ##                       qseqid
 ## 1 ERS055657.7114_1_10.14_111
-## 2  ERS055657.7114_1_10.27_32
-## 3   ERS055657.7114_1_10.59_4
-## 4   ERS055657.7114_1_10.59_5
-## 5   ERS055657.7114_1_10.59_6
-## 6   ERS055657.7114_1_10.59_7
-##                                                                            sseqid
-## 1                      NZ_AFAH00000000.2_fim41a-G_F41a_Fim41a-G_fimbrial_subunit_
-## 2 CBJ02741.1_yghJ_YghJ_secreted_lipoprotein,_mucine_binding_metalloprotease_YghJ_
-## 3                                              LR883052_lngR_CS21_LngR_regulator_
-## 4                                              LR883052_lngS_CS21_LngS_regulator_
-## 5                                       LR883052_lngT_CS21_LngT_unknown_function_
-## 6                                      LR883052_lngX2_CS21_LngX2_unknown_function
-##    pident length mismatch gapopen qstart qend sstart send    evalue bitscore
-## 1 100.000     53        0       0     89  141    354  302  4.41e-23       99
-## 2  86.874   4594      541      48      1 4566      1 4560  0.00e+00     5086
-## 3 100.000    306        0       0      1  306      1  306 2.33e-163      566
-## 4 100.000    897        0       0      1  897      1  897  0.00e+00     1657
-## 5 100.000    444        0       0      1  444      1  444  0.00e+00      821
-## 6 100.000    222        0       0      1  222      1  222 8.24e-117      411
-##                      ACC  Protein                          GCA
-## 1 ERS055657.7114_1_10.14 fim41a-G 7114_1_10.contigs.fa_OUT.txt
-## 2 ERS055657.7114_1_10.27     YghJ 7114_1_10.contigs.fa_OUT.txt
-## 3 ERS055657.7114_1_10.59     CS21 7114_1_10.contigs.fa_OUT.txt
-## 4 ERS055657.7114_1_10.59     CS21 7114_1_10.contigs.fa_OUT.txt
-## 5 ERS055657.7114_1_10.59     CS21 7114_1_10.contigs.fa_OUT.txt
-## 6 ERS055657.7114_1_10.59     CS21 7114_1_10.contigs.fa_OUT.txt
+## 2   ERS055657.7114_1_10.59_4
+## 3   ERS055657.7114_1_10.59_5
+## 4   ERS055657.7114_1_10.59_6
+## 5   ERS055657.7114_1_10.59_7
+## 6   ERS055657.7114_1_10.59_8
+##                                                        sseqid pident length
+## 1 NZ_AFAH00000000.2-?fim41a-G?F41a-Fim41a-G-fimbrial-subunit?    100     53
+## 2                         LR883052-?lngR?CS21-LngR-regulator?    100    306
+## 3                         LR883052-?lngS?CS21-LngS-regulator?    100    897
+## 4                  LR883052-?lngT?CS21-LngT-unknown-function?    100    444
+## 5                 LR883052-?lngX2?CS21-LngX2-unknown-function    100    222
+## 6                     LR883052-?lngA?CS21-LngA-major-subunit?    100    711
+##   mismatch gapopen qstart qend sstart send    evalue bitscore
+## 1        0       0     89  141    354  302  4.06e-23       99
+## 2        0       0      1  306      1  306 2.15e-163      566
+## 3        0       0      1  897      1  897  0.00e+00     1657
+## 4        0       0      1  444      1  444  0.00e+00      821
+## 5        0       0      1  222      1  222 7.59e-117      411
+## 6        0       0      1  711      1  711  0.00e+00     1314
+##                      ACC Protein                  GCA
+## 1 ERS055657.7114_1_10.14    F41a 7114_1_10.contigs.fa
+## 2 ERS055657.7114_1_10.59    CS21 7114_1_10.contigs.fa
+## 3 ERS055657.7114_1_10.59    CS21 7114_1_10.contigs.fa
+## 4 ERS055657.7114_1_10.59    CS21 7114_1_10.contigs.fa
+## 5 ERS055657.7114_1_10.59    CS21 7114_1_10.contigs.fa
+## 6 ERS055657.7114_1_10.59    CS21 7114_1_10.contigs.fa
 ```
 
 2- `Composition_by_assembly.txt`. Will save the information about the
@@ -116,10 +131,8 @@ proteins included for each genome.
 
 ``` r
 head(composition_genome)
-##                             V1
-## 1 7114_1_10.contigs.fa_OUT.txt
-##                                                                         V2
-## 1 fim41a-G, YghJ, eatA, etpA, etpB, eltA, etpC, CFA/I, STh, CS21, CS1, CS3
+##                     V1                       V2
+## 1 7114_1_10.contigs.fa F41a, CS1, CS3, LTh, STh
 ```
 
 3- `./Output/*gff`. Modified Prokka .gff files will be stored in Output

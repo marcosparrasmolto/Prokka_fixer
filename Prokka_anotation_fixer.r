@@ -16,7 +16,7 @@ e=1
 
 for(i in 1:length(files_totales)) ## Here we extract all the information for what sequence is include in part of each assembly project/genome.
 {
-  if(!isEmpty(grep(".fa",files_totales[i])))
+  if(!isEmpty(grep(".fa$",files_totales[i])))
   {
     
     multifa_original=read.delim(paste("./Seqs",files_totales[i],sep = "/"),header=F)
@@ -38,7 +38,7 @@ write.table(extract_table,"GCA_access.txt",sep="\t",row.names = F,col.names = F,
 #########################################
 
 
-multifa_original=read.delim("salida_prodigal_global_headers.txt",header=F) ##ORFs from Prodigal analysis are saved, taking care of the position information.
+multifa_original=read.delim("aux_file_prodigal_global_headers.txt",header=F) ##ORFs from Prodigal analysis are saved, taking care of the position information.
 
 tab_aux_res=data.frame(matrix(ncol=3,nrow=length(multifa_original[,1])))
 
@@ -54,13 +54,13 @@ tab_aux_res[,1]=str_replace_all(tab_aux_res[,1],">","")
 
 tab_GCA=read.delim("GCA_access.txt",header = F)
 
-tab_blast=read.delim("salida_global_blast",header = F) ###Blast result for each multifasta is loaded and the best hist from the most abundant hits are saved in each case
+tab_blast=read.delim("blast_output_file",header = F) ###Blast result for each multifasta is loaded and the best hist from the most abundant hits are saved in each case
 
 ###########Aqui se puede meter código para filtar el blast, por ejemplo 90% minimo identidad
 
 tab_blast$acc=sub('[_][^_]+$', '', as.character(tab_blast[,1]))
 
-tab_blast$assigned=sapply(strsplit(as.character(tab_blast[,2]), "_"), "[[", 3)
+tab_blast$assigned=sapply(strsplit(sapply(strsplit(as.character(tab_blast[,2]), "\\?"), "[[", 3),"-"),"[[",1)
 
 
 tab_blast$GCA=tab_GCA[match(tab_blast$acc,tab_GCA$V2),1]
@@ -71,6 +71,8 @@ u=1
 
 tab_resultados=data.frame(matrix(ncol=dim(tab_blast)[2]))
 tab_tipo_operon=data.frame(matrix(ncol=2))
+
+filter_file=read.table("./Database/ETEC_CFs.txt",na.strings=c("","NA"),sep="\t",row.names=1)
 
 for(e in 1:length(unique(tab_blast$GCA))) ##Within this loop information about what ETEC proteins are found for each assembly/project is saved in two files. "All_results_hit" will save the best hit for each ORF based on the most abundant one. "Composition_by_assembly" will save the information about the proteins included for each genome. 
 {
@@ -86,16 +88,42 @@ for(e in 1:length(unique(tab_blast$GCA))) ##Within this loop information about w
   }
   
   tab_CS_aux=tab_resultados[tab_resultados$X15==unique(tab_blast$GCA)[e],] ###Here we only keep the major subunit result for the output! When taking into account the name for each protein we will name it after the information we get from the "major subunit"
+  list_hist=unique(tab_CS_aux[,14])
+  total_values_list=list()
   
+  for(i in 1:length(list_hist))
+  {
+	values_look=as.character(na.omit(as.character(filter_file[rownames(filter_file)==list_hist[i],])))
+	values_look[values_look=="character(0)"] <- NA
+	values_look=na.omit(values_look)
+	
+	if(length(values_look)>0)
+	{
+	  total_values_list[list_hist[i]]=0
+	  
+	  for(u in 1:length(values_look))
+	  {
+	    if(!isEmpty(grep(values_look[u],tab_resultados[,2])))
+	    {
+	      total_values_list[list_hist[i]]=total_values_list[list_hist[i]][[1]]+1
+	      #print(tab_resultados[grep(values_look[u],tab_resultados[,2]),14]) ##Si lo encuentra, guardar el resultado en una lista. Si el total de resultados es el mismo que el ttoal de valores que se buscan, se anota, si no no ACABAR
+	    }
+	  }
+	  
+	  if(total_values_list[list_hist[i]][[1]]!=length(values_look))
+	  {
+	    tab_CS_aux=tab_CS_aux[tab_CS_aux[,14]!=list_hist[i],]
+	  }
+	}
+	
+  }
   
   ####WE ONLY KEEP THE VALUES OF CS WHEN MAJOR_SUBUNIT IS FOUND!!!
   
-  tab_CS_aux=rbind(tab_CS_aux[!grepl(pattern = "CS",x = tab_CS_aux[,2]),],tab_CS_aux[grepl(pattern = "major_subunit",x = tab_CS_aux[,2]),])
+  #tab_CS_aux=rbind(tab_CS_aux[!grepl(pattern = "CS",x = tab_CS_aux[,2]),],tab_CS_aux[grepl(pattern = "major_subunit",x = tab_CS_aux[,2]),])
   
   
-  tab_tipo_operon[u,]=c(unique(tab_blast$GCA)[e],paste(unique(tab_CS_aux[tab_CS_aux$X15==unique(tab_blast$GCA)[e],][,14]),collapse = ", "))
-  
-  u=u+1
+  tab_tipo_operon[e,]=c(unique(tab_blast$GCA)[e],paste(unique(tab_CS_aux[tab_CS_aux$X15==unique(tab_blast$GCA)[e],][,14]),collapse = ", "))
 }
 
 
@@ -109,7 +137,7 @@ write.table(tab_resultados_print,"All_results_hit.txt",sep="\t",quote=F,row.name
 
 system("perl ./bin/prokka_parser.pl") ##With this script we will parse Prokka results and get the information from the most abundant hit replacing the result from original prokka execution
 
-system("rm -rf salida_* ./Seqs/salida_* ./Seqs/*txt") ##Temporary file are removed.
+system("rm -rf aux_file_* blast_output_file ./Seqs/aux_fil* ./Seqs/*txt") ##Temporary file are removed.
 
 ####GVIZ Analysis
 
@@ -162,4 +190,4 @@ system("rm -rf salida_* ./Seqs/salida_* ./Seqs/*txt") ##Temporary file are remov
 #}
 
 
-#system(paste('/storage/parras/CMV/EggNOG/A_ver/eggnog-mapperpper.py -i /storage/parras/ProyectoAstrid/Prokka_prueba/Prueba_seq_unica/salida_prodigal_global_aa -o /storage/parras/ProyectoAstrid/Prokka_prueba/Prueba_seq_unica/JOJOJO/ --cpu 30 -m hmmer --data_dir /storage/parras/CMV/EggNOG/A_ver/eggnog-mapper-master/data/ -d Bacteria',sep=""))
+#system(paste('/storage/parras/CMV/EggNOG/A_ver/eggnog-mapperpper.py -i /storage/parras/ProyectoAstrid/Prokka_prueba/Prueba_seq_unica/aux_file_prodigal_global_aa -o /storage/parras/ProyectoAstrid/Prokka_prueba/Prueba_seq_unica/JOJOJO/ --cpu 30 -m hmmer --data_dir /storage/parras/CMV/EggNOG/A_ver/eggnog-mapper-master/data/ -d Bacteria',sep=""))
