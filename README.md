@@ -54,7 +54,9 @@ Results are generated at this point..
 the original Prokka file and change the annotation for a new one
 produced from blast against the custom database.
 
-3- `./Databse/ETEC_DB`. Custom ETEC proteins database.
+3- `./Database/ETEC_DB`. Custom ETEC proteins database.
+
+4- `./Database/ETEC_CFs`. Criteria for ETEC classification.
 
 How to create the database:
 
