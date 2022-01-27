@@ -5,13 +5,7 @@
 
 ## **R code for: Parras-Moltó & , 2021**
 
-This document describes the use of Prokka\_anotation\_fixer.R. The
-analysis of ETEC E.coli species could be a problem for certain proteins
-due to their similarity to not related pathogenicity proteins form in
-Porkka database, so we could get a biased result when using default the
-defaul one. A blast using a custom ETEC database could help us to fix
-some ETEC pathogenicity related genes and modify the Prokka output with
-new, custom, results.
+This document describes the use of Prokka\_annotation\_fixer.R. Annotation of enterotoxigenic Escherichia coli (ETEC) genomes can be problematic. Certain ETEC virulence proteins are similar to proteins which are not linked to pathogenicity. A blast using a custom ETEC database with ETEC virulence factors with this script will help generate annotated genomes by modifying the Prokka output with new, custom, annotations.
 
     R version 4.1.0 (2021-05-18)
 
