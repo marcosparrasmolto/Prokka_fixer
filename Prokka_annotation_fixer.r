@@ -56,7 +56,7 @@ tab_GCA=read.delim("GCA_access.txt",header = F)
 
 tab_blast=read.delim("blast_output_file",header = F) ###Blast result for each multifasta is loaded and the best hist from the most abundant hits are saved in each case
 
-###########Aqui se puede meter código para filtar el blast, por ejemplo 90% minimo identidad
+###########Aqui se puede meter cÃ³digo para filtar el blast, por ejemplo 90% minimo identidad
 
 tab_blast$acc=sub('[_][^_]+$', '', as.character(tab_blast[,1]))
 
