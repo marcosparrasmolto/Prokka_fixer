@@ -1,1 +1,1 @@
-7114_1_10.contigs.fa_OUT.txt	fim41a-G, YghJ, eatA, etpA, etpB, eltA, etpC, CFA/I, STh, CS21, CS1, CS3
+7114_1_10.contigs.fa	YghJ, EatA, CS1, CS3, EtpBAC, LTh, STh
