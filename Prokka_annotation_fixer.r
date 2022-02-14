@@ -88,6 +88,7 @@ for(e in 1:length(unique(tab_blast$GCA))) ##Within this loop information about w
   }
   
   tab_CS_aux=tab_resultados[tab_resultados$X15==unique(tab_blast$GCA)[e],] ###Here we only keep the major subunit result for the output! When taking into account the name for each protein we will name it after the information we get from the "major subunit"
+  tab_CS_aux_not=NULL
   list_hist=unique(tab_CS_aux[,14])
   total_values_list=list()
   
@@ -112,6 +113,7 @@ for(e in 1:length(unique(tab_blast$GCA))) ##Within this loop information about w
 	  
 	  if(total_values_list[list_hist[i]][[1]]!=length(values_look))
 	  {
+	    tab_CS_aux_not=rbind(tab_CS_aux_not,tab_CS_aux[tab_CS_aux[,14]==list_hist[i],])
 	    tab_CS_aux=tab_CS_aux[tab_CS_aux[,14]!=list_hist[i],]
 	  }
 	}
@@ -134,10 +136,14 @@ colnames(tab_resultados_print)=c("qseqid","sseqid","pident","length","mismatch",
                                  "qstart","qend","sstart","send","evalue","bitscore","ACC","Protein","GCA")
 write.table(tab_resultados_print,"All_results_hit.txt",sep="\t",quote=F,row.names = F)
 
+colnames(tab_CS_aux_not)=c("qseqid","sseqid","pident","length","mismatch","gapopen",
+                                 "qstart","qend","sstart","send","evalue","bitscore","ACC","Protein","GCA")
+write.table(tab_CS_aux_not,"Incomplete_CFs.txt",sep="\t",quote=F,row.names = F)
 
 system("perl ./bin/prokka_parser.pl") ##With this script we will parse Prokka results and get the information from the most abundant hit replacing the result from original prokka execution
-
-system("rm -rf aux_file_* blast_output_file ./Seqs/aux_fil* ./Seqs/*txt") ##Temporary file are removed.
+system("mkdir ./Output/Aux_output_files/")
+system("mv ./Output/*_prokka_out ./Output/Aux_output_files/")
+system("rm -rf aux_file_* blast_output_file ./Seqs/aux_fil* ./Seqs/*txt GCA_access.txt") ##Temporary file are removed.
 
 ####GVIZ Analysis
 
