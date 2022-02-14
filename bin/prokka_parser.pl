@@ -88,10 +88,10 @@ for(@files) ##For each gff file information about ORFs with new blast informatio
 	{		
 		if($_ =~ /gff/)
 		{
-			$dir_guardado=(split(/.fa/,$dir_guardado))[0];
+			$dir_guardado=(split(/.contigs.fa/,$dir_guardado))[0];
 			
 			open (entrada,$_) || die "File could not be opened\n";
-			open (salida,">".$dir_guardado."_new_gff_file.gff");
+			open (salida,">".$dir_guardado."_new_prokka.gff");
 
 			while(<entrada>)
 			{
